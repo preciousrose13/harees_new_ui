@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, unused_import, file_names
+// ignore_for_file: unused_field, unused_import
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,13 +50,17 @@ class _MyAppointmentsState extends State<MyAppointments> {
         title: const Text("Appointments"),
         centerTitle: true,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.grey[300],
-              backgroundImage: NetworkImage(
-                widget.targetUser.profilePic.toString(),
+          GestureDetector(
+            onTap: () {
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: CircleAvatar(
+                radius: 18,
+                backgroundColor: Colors.grey[300],
+                backgroundImage: NetworkImage(
+                  widget.targetUser.profilePic.toString(),
+                ),
               ),
             ),
           ),
@@ -115,7 +119,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
   }
 }
 
-class AppointmentTile extends StatelessWidget {
+class AppointmentTile extends StatefulWidget {
   final String name;
   final String address;
   final String reportName;
@@ -129,9 +133,15 @@ class AppointmentTile extends StatelessWidget {
   });
 
   @override
+  State<AppointmentTile> createState() => _AppointmentTileState();
+}
+
+class _AppointmentTileState extends State<AppointmentTile> {
+  @override
   Widget build(BuildContext context) {
+    final userAppointments = FirebaseFirestore.instance.collection("User_appointments");
     return Card(
-      color: color,
+      color: widget.color,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Container(
         height: 170,
@@ -148,14 +158,14 @@ class AppointmentTile extends StatelessWidget {
                     children: [
                       ListTile(
                         title: Text(
-                          name,
+                          widget.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                             fontSize: 14,
                           ),
                         ),
-                        subtitle: Text(address),
+                        subtitle: Text(widget.address),
                         leading: Image.asset(
                           "assets/images/user.png",
                           height: 50,
@@ -182,7 +192,7 @@ class AppointmentTile extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              reportName,
+                              widget.reportName,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
@@ -205,7 +215,13 @@ class AppointmentTile extends StatelessWidget {
                         width: 250,
                         height: 40,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              userAppointments.doc(widget.name).delete();
+                            });
+                            // delete the particular one
+                            
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.indigo[900],
                           ),

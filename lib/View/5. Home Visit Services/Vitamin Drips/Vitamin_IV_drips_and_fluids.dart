@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, file_names, non_constant_identifier_names, avoid_print
+// ignore_for_file: public_member_api_docs, sort_constructors_first, unused_import, unused_local_variable, prefer_const_constructors, avoid_print, non_constant_identifier_names, file_names
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +8,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:harees_new_project/Resources/Button/myroundbutton.dart';
 import 'package:harees_new_project/View/8.%20Chats/Models/user_models.dart';
 import 'package:harees_new_project/Resources/AppColors/app_colors.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Vitamin%20Drips/Vitamin_services.dart';
@@ -46,7 +47,6 @@ class _VitaminState extends State<Vitamin> {
 
   @override
   void initState() {
-
     super.initState();
     _marker.addAll(_list);
   }
@@ -56,6 +56,82 @@ class _VitaminState extends State<Vitamin> {
         .then((value) {})
         .onError((error, stackTrace) {});
     return await Geolocator.getCurrentPosition();
+  }
+
+  void _showAddressBottomSheet() async {
+    final position = await getUserCurrentLocation();
+    print("My Location".tr);
+    print("${position.latitude} ${position.longitude}");
+
+    // Get address
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude, position.longitude);
+    stAddress = "${placemarks.reversed.last.country} ${placemarks.reversed.last.locality} ${placemarks.reversed.last.street}";
+
+    setState(() {
+      _marker.add(Marker(
+          markerId: const MarkerId("2"),
+          position: LatLng(position.latitude, position.longitude),
+          infoWindow: InfoWindow(title: "My Location".tr)));
+      Latitude = position.latitude.toString();
+      Longitude = position.longitude.toString();
+    });
+
+    // Show bottom sheet
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(16),
+        color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Address:",
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              stAddress.isNotEmpty ? stAddress : "Fetching address...",
+              style: const TextStyle(fontSize: 14),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Show confirmation dialog
+                Get.defaultDialog(
+                  title: "Confirm".tr,
+                  middleText: "Are you sure you want to confirm".tr,
+                  onCancel: () {
+                    Navigator.pop(context); // Close the dialog
+                  },
+                  onConfirm: () {
+                    setState(() {
+                      fireStore.doc(widget.firebaseUser.email).set({
+                        "email": widget.firebaseUser.email,
+                        "address": stAddress,
+                        "type": "Vitamin"
+                      });
+                      Get.to(() => VitaminServices(
+                          address: stAddress,
+                          userModel: widget.userModel,
+                          firebaseUser: widget.firebaseUser));
+                      Navigator.pop(context); // Close the dialog
+                      Navigator.pop(context); // Close the bottom sheet
+                    });
+                  },
+                  textCancel: "Cancel".tr,
+                  textConfirm: "Confirm".tr,
+                );
+              },
+              child: const Text("Send"),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      isDismissible: true,
+    );
   }
 
   @override
@@ -78,79 +154,12 @@ class _VitaminState extends State<Vitamin> {
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
-        child: FloatingActionButton(
-          onPressed: () async {
-            address = true;
-            getUserCurrentLocation().then((value) async {
-              print("My Location".tr);
-              print(
-                  "${value.latitude} ${value.longitude}");
-              _marker.add(Marker(
-                  markerId: const MarkerId("2"),
-                  position: LatLng(value.latitude, value.longitude),
-                  infoWindow: InfoWindow(title: "My Location".tr)));
-              Latitude = value.latitude.toString();
-              Longitude = value.longitude.toString();
-
-              List<Placemark> placemarks = await placemarkFromCoordinates(
-                  value.latitude, value.longitude);
-              stAddress = "${placemarks.reversed.last.country} ${placemarks.reversed.last.locality} ${placemarks.reversed.last.street}";
-              CameraPosition cameraPosition = CameraPosition(
-                  zoom: 14,
-                  target: LatLng(
-                    value.latitude,
-                    value.longitude,
-                  ));
-              final GoogleMapController controller = await _controller.future;
-              controller.animateCamera(
-                  CameraUpdate.newCameraPosition(cameraPosition));
-              setState(() {});
-            });
-            Get.snackbar("To proceed".tr,
-                "Kindly click on your address mentioned below".tr,
-                duration: const Duration(seconds: 5),
-                backgroundColor: MyColors.logocolor,
-                borderColor: Colors.black,
-                borderWidth: 1);
-          },
-          child: const Icon(Icons.navigation),
+        child: MyRoundButton(
+          text: "Select location",
+          onTap: _showAddressBottomSheet,
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(children: [
-          TextButton(
-              onPressed: () {
-                Get.defaultDialog(
-                  title: "Confirm".tr,
-                  middleText: "Are you sure you want to confirm".tr,
-                  onCancel: () {
-                    Navigator.pop(context);
-                  },
-                  onConfirm: () {
-                    setState(() {
-                      fireStore.doc(user!.email).set({
-                        "email": user.email,
-                        "address": stAddress,
-                        "type": "Vitamin"
-                      });
-                      Get.to(() => VitaminServices(
-                          address: stAddress,
-                          userModel: widget.userModel,
-                          firebaseUser: widget.firebaseUser));
-                    });
-                  },
-                  textCancel: "Cancel".tr,
-                  textConfirm: "Confirm".tr,
-                );
-              },
-              child: Text(
-                address
-                    ? stAddress
-                    : "Address will appear here when you press the button".tr,
-                style: const TextStyle(color: Colors.blue, fontSize: 15),
-              )),
-        ]),
-      ),
+     
     );
   }
 }
