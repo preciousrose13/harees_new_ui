@@ -126,23 +126,30 @@ class _NurseVisitState extends State<NurseVisit> {
                   onCancel: () {
                     Navigator.pop(context);
                   },
-                  onConfirm: () {
+                  onConfirm: () async {
                     setState(() {
+
                       fireStore.doc(user!.email).set({
                         "email": user.email,
                         "address": stAddress,
                         "type": "Nurse Visit"
                       });
+
                       Get.to(() => PaymentDetailsPage(
-                            userModel: widget.userModel,
-                            firebaseUser: widget.firebaseUser,
-                            packageName: "Nurse Visit",
-                            packagePrice: "200SAR",
-                            providerData: {},
-                          ));
-                      Navigator.pop(context);
+                        selectedProviderData: {},
+                        selectedTime: "",
+                        userModel: widget.userModel,
+                        firebaseUser: widget.firebaseUser,
+                        packageName: "Nurse Visit",
+                        packagePrice: "200SAR",
+                        providerData: {},
+                      ));
                     });
+
+                    Navigator.pop(context);
                   },
+                  
+
                   textCancel: "Cancel".tr,
                   textConfirm: "Confirm".tr,
                 );

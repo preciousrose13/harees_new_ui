@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, unnecessary_import, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_const_constructors
+// ignore_for_file: public_member_api_docs, sort_constructors_first, unnecessary_import, no_leading_underscores_for_local_identifiers, unused_local_variable, prefer_const_constructors, unused_import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,25 +28,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: MyColors.PageBg,
       elevation: 1,
       actions: [
-        GestureDetector(
-            onTap: () {
-             Get.to(() => SettingsPage(
-                  userModel: userModel,
-                  firebaseUser: firebaseUser,
-                  targetUser: userModel,
-                ));
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: CircleAvatar(
-                        radius: 18,
-                        backgroundColor: Colors.grey[300],
-                        backgroundImage: NetworkImage(
-                          targetUser.profilePic.toString(),
-                        ),
-                      ),
-            ),
-          ),
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: CircleAvatar(
+                    radius: 18,
+                    backgroundColor: Colors.grey[300],
+                    backgroundImage: NetworkImage(
+                      targetUser.profilePic.toString(),
+                    ),
+                  ),
+        ),
       ],
     );
   }

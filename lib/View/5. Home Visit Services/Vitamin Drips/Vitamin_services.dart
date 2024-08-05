@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +105,8 @@ class _VitaminServicesState extends State<VitaminServices> {
                       ListTile(
                         onTap: () {
                           Get.to(() => PaymentDetailsPage(
+                              selectedProviderData: {},
+                              selectedTime: "",
                               userModel: widget.userModel,
                               firebaseUser: widget.firebaseUser,
                               providerData: {},
@@ -204,6 +206,8 @@ class _VitaminServicesState extends State<VitaminServices> {
                       ListTile(
                         onTap: () {
                           Get.to(() => PaymentDetailsPage(
+                            selectedProviderData: {},
+                              selectedTime: "",
                               userModel: widget.userModel,
                               firebaseUser: widget.firebaseUser,
                               providerData: {},
@@ -303,6 +307,8 @@ class _VitaminServicesState extends State<VitaminServices> {
                       ListTile(
                         onTap: () {
                           Get.to(() => PaymentDetailsPage(
+                            selectedProviderData: {},
+                              selectedTime: "",
                               userModel: widget.userModel,
                               firebaseUser: widget.firebaseUser,
                               providerData: {},
@@ -402,6 +408,8 @@ class _VitaminServicesState extends State<VitaminServices> {
                       ListTile(
                         onTap: () {
                           Get.to(() => PaymentDetailsPage(
+                            selectedProviderData: {},
+                              selectedTime: "",
                               userModel: widget.userModel,
                               firebaseUser: widget.firebaseUser,
                               providerData: {},
@@ -501,6 +509,8 @@ class _VitaminServicesState extends State<VitaminServices> {
                       ListTile(
                         onTap: () {
                           Get.to(() => PaymentDetailsPage(
+                            selectedProviderData: {},
+                              selectedTime: "",
                               userModel: widget.userModel,
                               firebaseUser: widget.firebaseUser,
                               providerData: {},
@@ -600,6 +610,8 @@ class _VitaminServicesState extends State<VitaminServices> {
                       ListTile(
                         onTap: () {
                           Get.to(() => PaymentDetailsPage(
+                            selectedProviderData: {},
+                              selectedTime: "",
                               userModel: widget.userModel,
                               firebaseUser: widget.firebaseUser,
                               providerData: {},

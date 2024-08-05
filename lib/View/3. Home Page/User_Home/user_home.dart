@@ -23,7 +23,7 @@ import 'package:harees_new_project/Resources/Bottom_Navigation_Bar/bottom_nav.da
 import 'package:harees_new_project/Resources/Services_grid/user_grid.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Doctor_visit/doctor_visit.dart';
 import 'package:harees_new_project/View/4.%20Virtual%20Consultation/b.%20E-Clinics/e_clinic.dart';
-import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Laboratory/Lab_imp.dart';
+import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Laboratory/a.Lab_imp.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Nurse_visit/nurse_visit.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Vitamin%20Drips/Vitamin_IV_drips_and_fluids.dart';
 import 'package:harees_new_project/View/4.%20Virtual%20Consultation/a.%20Virtual%20Consultation/virtual_consultation.dart';

@@ -50,7 +50,7 @@ class _LabTestState extends State<LabTest> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/background_pic.png"),
+                  image: AssetImage("assets/images/back_image.png"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -234,6 +234,8 @@ class _LabTestState extends State<LabTest> {
                           return GestureDetector(
                             onTap: () {
                               Get.to(() => PaymentDetailsPage(
+                                  selectedProviderData: {},
+                                  selectedTime: "",
                                   providerData: {},
                                   packageName: "Health check package",
                                   packagePrice: "200", 

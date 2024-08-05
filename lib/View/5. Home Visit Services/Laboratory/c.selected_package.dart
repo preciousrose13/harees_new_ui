@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, camel_case_types
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, camel_case_types, library_private_types_in_public_api
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,25 +6,40 @@ import 'package:get/get.dart';
 import 'package:harees_new_project/Resources/AppBar/app_bar.dart';
 import 'package:harees_new_project/Resources/AppColors/app_colors.dart';
 import 'package:harees_new_project/View/4.%20Virtual%20Consultation/d.%20Payment/payment.dart';
+import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Laboratory/d.labpayment.dart';
 import 'package:harees_new_project/View/8.%20Chats/Models/user_models.dart';
 
-class Provider_Details extends StatefulWidget {
+class Selected_Package extends StatefulWidget {
   final UserModel userModel;
   final User firebaseUser;
+  final String packageName;
+  final String packagePrice;
   final Map<String, dynamic> providerData;
 
-  Provider_Details({
-    required this.providerData,
+  Selected_Package({
+    required this.packageName,
+    required this.packagePrice,
     required this.userModel,
     required this.firebaseUser,
+    required this.providerData,
   });
 
   @override
-  _Provider_DetailsState createState() => _Provider_DetailsState();
+  _Selected_PackageState createState() => _Selected_PackageState();
 }
 
-class _Provider_DetailsState extends State<Provider_Details> {
+class _Selected_PackageState extends State<Selected_Package> {
   String? selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Store package details in providerData
+    widget.providerData['packageName'] = widget.packageName;
+    widget.providerData['packagePrice'] = widget.packagePrice;
+    widget.providerData['icon'] = Icons.science_outlined;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +65,9 @@ class _Provider_DetailsState extends State<Provider_Details> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    "Selected Provider",
+                    "Selected Package",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
@@ -68,40 +83,29 @@ class _Provider_DetailsState extends State<Provider_Details> {
                   ),
                   child: ListTile(
                     title: Text(
-                      'Name: ${widget.providerData['name'] ?? 'N/A'}',
+                      'Package: ${widget.packageName}',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Experience: ${widget.providerData['experience'] ?? 'N/A'}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          'Email: ${widget.providerData['email'] ?? 'N/A'}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
+                    subtitle: Text(
+                      'Price: ${widget.packagePrice}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    leading: CircleAvatar(
-                      radius: 35,
-                      backgroundImage: NetworkImage(widget.providerData['image'] ?? 'https://via.placeholder.com/150'),
+                    leading: Icon(
+                      widget.providerData['icon'],
+                      color: Colors.black,
+                      size: 40,
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     "Choose Your Slot",
                     style: TextStyle(
@@ -113,7 +117,7 @@ class _Provider_DetailsState extends State<Provider_Details> {
                 ),
                 SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     "Morning",
                     style: TextStyle(
@@ -127,7 +131,7 @@ class _Provider_DetailsState extends State<Provider_Details> {
                 buildTimeSelectionRow("09:00 am", "10:00 am", "11:00 am"),
                 SizedBox(height: 15),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     "Afternoon",
                     style: TextStyle(
@@ -141,7 +145,7 @@ class _Provider_DetailsState extends State<Provider_Details> {
                 buildTimeSelectionRow("12:00 pm", "1:00 pm", "02:00 pm"),
                 SizedBox(height: 15),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     "Evening",
                     style: TextStyle(
@@ -154,25 +158,22 @@ class _Provider_DetailsState extends State<Provider_Details> {
                 SizedBox(height: 10),
                 buildTimeSelectionRow("04:00 pm", "05:00 pm", "06:00 pm"),
                 SizedBox(height: 40),
-
                 GestureDetector(
                   onTap: () {
                     if (selectedTime != null) {
-                      Get.to(() => PaymentDetailsPage(
+                      Get.to(() => LabPaymentPage(
+                        providerData: widget.providerData,
                         userModel: widget.userModel,
                         firebaseUser: widget.firebaseUser,
-                        providerData: widget.providerData,
-                        packageName: '',
-                        packagePrice: '',
-                        selectedTime: selectedTime!, 
-                        selectedProviderData: widget.providerData,
+                        selectedTime: selectedTime!,
+                        selectedProviderData: {},
                       ));
                     } else {
                       Get.snackbar("Error", "Please select a time slot");
                     }
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
@@ -212,7 +213,7 @@ class _Provider_DetailsState extends State<Provider_Details> {
 
   Widget buildTimeSelectionRow(String time1, String time2, String time3) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

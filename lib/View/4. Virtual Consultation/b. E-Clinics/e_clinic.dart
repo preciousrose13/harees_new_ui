@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, camel_case_types, non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,22 +34,13 @@ class _E_ClinicsState extends State<E_Clinics> {
         elevation: 1,
         backgroundColor: MyColors.PageBg,
         actions: [
-          GestureDetector(
-            onTap: () {
-              Get.to(() => SettingsPage(
-                userModel: widget.userModel,
-                firebaseUser: widget.firebaseUser,
-                targetUser: widget.userModel,
-              ));
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: CircleAvatar(
-                radius: 18,
-                backgroundColor: Colors.grey[300],
-                backgroundImage: NetworkImage(
-                  widget.targetUser.profilePic.toString(),
-                ),
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: CircleAvatar(
+              radius: 18,
+              backgroundColor: Colors.grey[300],
+              backgroundImage: NetworkImage(
+                widget.targetUser.profilePic.toString(),
               ),
             ),
           ),

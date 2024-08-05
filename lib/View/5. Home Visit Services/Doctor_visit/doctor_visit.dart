@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, avoid_print
+
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +39,7 @@ class _DoctorVisitState extends State<DoctorVisit> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     _marker.addAll(_list);
   }

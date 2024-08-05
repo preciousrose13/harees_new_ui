@@ -50,7 +50,7 @@ class AvailableDoctors extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                 decoration: BoxDecoration(
-                  color: Colors.lightBlue[100],
+                  color: Colors.lightBlue[50],
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 height: 120,

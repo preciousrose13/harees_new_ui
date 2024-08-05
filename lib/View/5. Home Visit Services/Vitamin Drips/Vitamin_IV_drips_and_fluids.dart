@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, file_names, non_constant_identifier_names, avoid_print
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,7 +46,7 @@ class _VitaminState extends State<Vitamin> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     _marker.addAll(_list);
   }

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, avoid_print
+
 import 'dart:developer';
 import 'dart:io';
 
@@ -55,130 +57,85 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
   void showPhotoOptions() {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Upload Profile Picture".tr),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                    selectImage(ImageSource.gallery);
-                  },
-                  leading: const Icon(Icons.photo_album),
-                  title: Text("Select from Gallery".tr),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                    selectImage(ImageSource.camera);
-                  },
-                  leading: const Icon(Icons.camera_alt),
-                  title: Text("Take a photo".tr),
-                ),
-              ],
-            ),
-          );
-        });
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Upload Profile Picture".tr),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  selectImage(ImageSource.gallery);
+                },
+                leading: const Icon(Icons.photo_album),
+                title: Text("Select from Gallery".tr),
+              ),
+              ListTile(
+                onTap: () {
+                  Navigator.pop(context);
+                  selectImage(ImageSource.camera);
+                },
+                leading: const Icon(Icons.camera_alt),
+                title: Text("Take a photo".tr),
+              ),
+            ],
+          ),
+        );
+      }
+    );
   }
-
-  // void checkValues() {
-  //   String fullname = fullNameController.text.trim();
-
-  //   if (fullname == "" || imageFile == null) {
-  //     print("Please fill all the fields");
-  //     UIHelper.showAlertDialog(context, "Incomplete Data",
-  //         "Please fill all the fields and upload a profile picture");
-  //   } else {
-  //     log("Uploading data..");
-  //     uploadData();
-  //   }
-  // }
 
   void checkValues() {
-  String fullname = fullNameController.text.trim();
+    String fullname = fullNameController.text.trim();
 
-  if (fullname.isEmpty) {
-    print("Please fill all the fields");
-    UIHelper.showAlertDialog(context, "Incomplete Data",
-        "Please fill all the fields");
-  } else {
-    log("Uploading data..");
-    uploadData();
+    if (fullname.isEmpty) {
+      print("Please fill all the fields");
+      UIHelper.showAlertDialog(context, "Incomplete Data",
+          "Please fill all the fields");
+    } else {
+      log("Uploading data..");
+      uploadData();
+    }
   }
-}
-
-  // void uploadData() async {
-  //   UIHelper.showLoadingDialog(context, "Uploading image..");
-
-  //   UploadTask uploadTask = FirebaseStorage.instance
-  //       .ref("Profile Pictures")
-  //       .child(widget.userModel.uid.toString())
-  //       .putFile(imageFile!);
-
-  //   TaskSnapshot snapshot = await uploadTask;
-
-  //   String? imageUrl = await snapshot.ref.getDownloadURL();
-  //   String? fullname = fullNameController.text.trim();
-
-  //   widget.userModel.fullname = fullname;
-  //   widget.userModel.profilePic = imageUrl;
-
-  //   await FirebaseFirestore.instance
-  //       .collection("Registered Users")
-  //       .doc(widget.userModel.uid)
-  //       .set(widget.userModel.tomap())
-  //       .then((value) {
-  //     log("Data uploaded!");
-  //     Navigator.popUntil(context, (route) => route.isFirst);
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) {
-  //         return HomePage(
-  //             userModel: widget.userModel, firebaseUser: widget.firebaseUser);
-  //       }),
-  //     );
-  //   });
-  // }
 
   void uploadData() async {
-  UIHelper.showLoadingDialog(context, "Uploading data..");
+    UIHelper.showLoadingDialog(context, "Uploading data..");
 
-  String? imageUrl;
-  if (imageFile != null) {
-    UploadTask uploadTask = FirebaseStorage.instance
-        .ref("Profile Pictures")
-        .child(widget.userModel.uid.toString())
-        .putFile(imageFile!);
+    String? imageUrl;
+    if (imageFile != null) {
+      UploadTask uploadTask = FirebaseStorage.instance
+          .ref("Profile Pictures")
+          .child(widget.userModel.uid.toString())
+          .putFile(imageFile!);
 
-    TaskSnapshot snapshot = await uploadTask;
+      TaskSnapshot snapshot = await uploadTask;
 
-    imageUrl = await snapshot.ref.getDownloadURL();
+      imageUrl = await snapshot.ref.getDownloadURL();
+    }
+
+    String? fullname = fullNameController.text.trim();
+
+    widget.userModel.fullname = fullname;
+    widget.userModel.profilePic = imageUrl;
+
+    await FirebaseFirestore.instance
+        .collection("Registered Users")
+        .doc(widget.userModel.uid)
+        .set(widget.userModel.tomap())
+        .then((value) {
+      log("Data uploaded!");
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return HomePage(
+              userModel: widget.userModel, firebaseUser: widget.firebaseUser);
+        }),
+      );
+    });
   }
-
-  String? fullname = fullNameController.text.trim();
-
-  widget.userModel.fullname = fullname;
-  widget.userModel.profilePic = imageUrl;
-
-  await FirebaseFirestore.instance
-      .collection("Registered Users")
-      .doc(widget.userModel.uid)
-      .set(widget.userModel.tomap())
-      .then((value) {
-    log("Data uploaded!");
-    Navigator.popUntil(context, (route) => route.isFirst);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return HomePage(
-            userModel: widget.userModel, firebaseUser: widget.firebaseUser);
-      }),
-    );
-  });
-}
 
   @override
   Widget build(BuildContext context) {
@@ -190,48 +147,60 @@ class _CompleteProfileState extends State<CompleteProfile> {
         title: Text("Complete Your Profile".tr),
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: ListView(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              CupertinoButton(
-                onPressed: () {
-                  showPhotoOptions();
-                },
-                child: CircleAvatar(
-                  backgroundImage:
-                      (imageFile != null) ? FileImage(imageFile!) : null,
-                  backgroundColor: MyColors.purple,
-                  radius: 50,
-                  child: (imageFile == null)
-                      ? const Icon(Icons.person, size: 60, color: Colors.white)
-                      : null,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                controller: fullNameController,
-                decoration: InputDecoration(
-                  labelText: "Full Name".tr,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              RoundButton(
-                  text: "Done!".tr,
-                  onTap: () {
-                    checkValues();
-                  }),
-            ],
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/back_image.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          // Main content
+          SafeArea(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ListView(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CupertinoButton(
+                    onPressed: () {
+                      showPhotoOptions();
+                    },
+                    child: CircleAvatar(
+                      backgroundImage:
+                          (imageFile != null) ? FileImage(imageFile!) : null,
+                      backgroundColor: Colors.grey[600],
+                      radius: 50,
+                      child: (imageFile == null)
+                          ? const Icon(Icons.person, size: 60, color: Colors.white)
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextField(
+                    controller: fullNameController,
+                    decoration: InputDecoration(
+                      labelText: "Full Name".tr,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  RoundButton(
+                      text: "Done!".tr,
+                      onTap: () {
+                        checkValues();
+                      }),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -36,11 +36,14 @@ class LabMorePackages extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   Get.to(() => PaymentDetailsPage(
+                    selectedProviderData: {},
                       userModel: userModel,
                       firebaseUser: firebaseUser,
                       providerData: {},
                       packageName: "Health check package",
-                      packagePrice: "200"));
+                      packagePrice: "200", 
+                      selectedTime: '',
+                    ));
                 },
                 child: Container(
                   width: double.infinity,

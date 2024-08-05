@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, avoid_print, non_constant_identifier_names
 
 import 'dart:io';
 
@@ -59,7 +59,7 @@ class _UserResultState extends State<UserResult> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     getAllPdf();
   }
@@ -152,8 +152,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
+ 
+     super.initState();
     initializePdf();
   }
 

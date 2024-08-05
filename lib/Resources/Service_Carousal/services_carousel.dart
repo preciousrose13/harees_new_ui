@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Doctor_visit/doctor_visit.dart';
-import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Laboratory/laboratory.dart';
+import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Laboratory/b.laboratory.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Nurse_visit/nurse_visit.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Vitamin%20Drips/Vitamin_IV_drips_and_fluids.dart';
 import 'package:harees_new_project/View/8.%20Chats/Models/user_models.dart';
@@ -21,7 +21,10 @@ class ServicesCarousel extends StatelessWidget {
         'color': Colors.blue[100],
         'icon': 'assets/images/lab.png',
         'text': 'Laboratory',
-        'route': Laboratory(),
+        'route': Laboratory(
+          userModel: userModel,
+          firebaseUser: firebaseUser,
+        ),
       },
       {
         'color': Colors.blue[200],

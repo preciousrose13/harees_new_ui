@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, unused_import, file_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,22 +50,13 @@ class _MyAppointmentsState extends State<MyAppointments> {
         title: const Text("Appointments"),
         centerTitle: true,
         actions: [
-          GestureDetector(
-            onTap: () {
-              Get.to(() => SettingsPage(
-                  userModel: widget.userModel,
-                  firebaseUser: widget.firebaseUser,
-                  targetUser: widget.userModel,
-                ));
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: CircleAvatar(
-                radius: 18,
-                backgroundColor: Colors.grey[300],
-                backgroundImage: NetworkImage(
-                  widget.targetUser.profilePic.toString(),
-                ),
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: CircleAvatar(
+              radius: 18,
+              backgroundColor: Colors.grey[300],
+              backgroundImage: NetworkImage(
+                widget.targetUser.profilePic.toString(),
               ),
             ),
           ),

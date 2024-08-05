@@ -9,19 +9,15 @@ import 'package:harees_new_project/View/4.%20Virtual%20Consultation/b.%20E-Clini
 import 'package:harees_new_project/View/8.%20Chats/Models/user_models.dart';
 import 'package:intl/intl.dart';
 
-class PaymentDetailsPage extends StatelessWidget {
+class LabPaymentPage extends StatelessWidget {
   final UserModel userModel;
   final User firebaseUser;
-  final String packageName;
-  final String packagePrice;
   final Map<String, dynamic> providerData;
   final String selectedTime;
   final Map<String, dynamic> selectedProviderData;
 
-  const PaymentDetailsPage({
+  const LabPaymentPage({
     super.key,
-    required this.packageName,
-    required this.packagePrice,
     required this.providerData,
     required this.userModel,
     required this.firebaseUser,
@@ -41,12 +37,6 @@ class PaymentDetailsPage extends StatelessWidget {
       ),
       body: Container(
         color: Colors.blue[50],
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage("assets/images/back_image.png"),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
@@ -131,39 +121,27 @@ class PaymentDetailsPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ListTile(
-                      title: Text(
-                        'Name: ${selectedProviderData['name'] ?? 'N/A'}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Experience: ${selectedProviderData['experience'] ?? 'N/A'}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'Email: ${selectedProviderData['email'] ?? 'N/A'}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      leading: CircleAvatar(
-                        radius: 35,
-                        backgroundImage: NetworkImage(
-                          selectedProviderData['image'] ?? 'https://via.placeholder.com/150',
-                        ),
+                    title: Text(
+                      '${providerData['packageName']}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
+                    subtitle: Text(
+                      'Price: ${providerData['packagePrice']}',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    leading: Icon(
+                      Icons.science_outlined,
+                      color: Colors.black,
+                      size: 40,
+                    ),
+                  ),
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -273,7 +251,7 @@ class PaymentDetailsPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '4 interests-free payments',
+                              '4 interest-free payments',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.black,
@@ -319,7 +297,6 @@ class PaymentDetailsPage extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      // color: MyColors.PageBg,
                     ),
                     width: double.infinity,
                     child: Column(

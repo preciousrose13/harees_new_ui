@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
+import 'package:harees_new_project/View/4.%20Virtual%20Consultation/b.%20E-Clinics/e_clinic.dart';
 import 'package:harees_new_project/View/8.%20Chats/Models/user_models.dart';
 import 'package:harees_new_project/Resources/AppColors/app_colors.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Doctor_visit/doctor_visit.dart';
-import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Laboratory/laboratory.dart';
+import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Laboratory/b.laboratory.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Nurse_visit/nurse_visit.dart';
 import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Vitamin%20Drips/Vitamin_IV_drips_and_fluids.dart';
 import 'package:harees_new_project/View/4.%20Virtual%20Consultation/a.%20Virtual%20Consultation/virtual_consultation.dart';
@@ -47,7 +48,10 @@ class CarouselExample extends StatelessWidget {
           Colors.white,
           Icons.science_outlined,
           "Laboratory".tr,
-          () => Get.to(() => const Laboratory()),
+          () => Get.to(() => Laboratory(
+                userModel: userModel,
+                firebaseUser: firebaseUser,
+          )),
         ),
         _buildCarouselItem(
           "149 SAR",
@@ -56,7 +60,11 @@ class CarouselExample extends StatelessWidget {
           Colors.white,
           Icons.videocam_outlined,
           "Virtual consultation".tr,
-          () => Get.to(() => AvailableProviders()),
+          () => Get.to(() => E_Clinics(
+                userModel: userModel,
+                firebaseUser: firebaseUser, 
+                targetUser: userModel,
+          )),
         ),
         _buildCarouselItem(
           "229 SAR",

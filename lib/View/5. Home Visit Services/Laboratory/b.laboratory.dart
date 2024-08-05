@@ -1,10 +1,17 @@
 // ignore_for_file: unused_import
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:harees_new_project/Resources/Search_bar/search_bar.dart';
+import 'package:harees_new_project/View/4.%20Virtual%20Consultation/d.%20Payment/payment.dart';
+import 'package:harees_new_project/View/5.%20Home%20Visit%20Services/Laboratory/c.selected_package.dart';
+import 'package:harees_new_project/View/8.%20Chats/Models/user_models.dart';
 
 class Laboratory extends StatelessWidget {
-  const Laboratory({super.key});
+  final UserModel userModel;
+  final User firebaseUser;
+  const Laboratory({super.key, required this.userModel, required this.firebaseUser});
 
   @override
   Widget build(BuildContext context) {
@@ -14,18 +21,27 @@ class Laboratory extends StatelessWidget {
         centerTitle: true,
         title: const Text("Laboratory"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const MySearchBar(),
-              const SizedBox(
-                height: 20,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+      body:Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/back_image.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                
+                const SizedBox(height: 20),
+                const MySearchBar(),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
                   buildClickableListTile(
                     context,
                     "فحص البروتين الكلي في البول",
@@ -1448,16 +1464,19 @@ class Laboratory extends StatelessWidget {
                     "60 SAR",
                     Icons.science_outlined,
                   ),
-                ],
-              ),
-            ],
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  Widget buildClickableListTile(
+Widget buildClickableListTile(
       BuildContext context, String title, String subtitle, IconData icon) {
     return GestureDetector(
       onTap: () {
@@ -1477,10 +1496,8 @@ class Laboratory extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .pop(); // Close the confirmation dialog
-                    // Navigate to payment details page with the selected package details
-                    navigateToPaymentDetails(context, title, subtitle, icon);
+                    Navigator.of(context).pop(); 
+                    navigateToSelectedPackage(title, subtitle);
                   },
                   child: const Text('Yes'),
                 ),
@@ -1493,51 +1510,55 @@ class Laboratory extends StatelessWidget {
     );
   }
 
-  void navigateToPaymentDetails(
-      BuildContext context, String title, String subtitle, IconData icon) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => PaymentDetailsPage(
-    //       packageName: title,
-    //       packagePrice: subtitle,
-    //     ),
-    //   ),
-    //);
+  void navigateToSelectedPackage(String title, String subtitle) {
+    Get.to(() => Selected_Package(
+      userModel: userModel,
+      firebaseUser: firebaseUser,
+      packageName: title,
+      packagePrice: subtitle, 
+      providerData: {},
+      
+    ));
   }
 
   Widget buildListTile(String title, String subtitle, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ListTile(
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 64, 150, 179),
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.blue.shade50,
         ),
-        contentPadding: const EdgeInsets.all(10),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 8),
-            Container(
-              padding: const EdgeInsets.all(10),
-              color: const Color(0xFF58aac5),
-              child: Text(
-                subtitle,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
+        child: ListTile(
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 64, 150, 179),
+            ),
+          ),
+          contentPadding: const EdgeInsets.all(10),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(10),
+                color: const Color(0xFF58aac5),
+                child: Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+          trailing: Icon(icon, color: Colors.black),
+          tileColor: const Color.fromARGB(255, 210, 237, 246),
         ),
-        trailing: Icon(icon, color: Colors.black),
-        tileColor: const Color.fromARGB(255, 210, 237, 246),
       ),
     );
   }
